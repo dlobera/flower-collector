@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic.edit import CreateView
 from .models import Flower
 
 # class Flower: 
@@ -27,3 +28,7 @@ def flowers_index(request):
 def flowers_detail(request, flower_id):
   flower = Flower.objects.get(id=flower_id)
   return render(request, 'flowers/detail.html', { 'flower': flower })
+
+class FlowerCreate(CreateView):
+  model = Flower
+  fields = '__all__'
