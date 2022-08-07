@@ -20,11 +20,11 @@
   width: 98%;
 }
 
-.cat-actions {
+.flower-actions {
   margin-top: 20px;
 }
 
-.waterings-toy-container {
+.waterings-vase-container {
   display: flex;
   flex-direction: column;
   padding-bottom: 20px;
@@ -41,7 +41,7 @@
   margin: 0 8px;
 }
 
-.toy-container {
+.vase-container {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -54,21 +54,21 @@
   margin-right: 10px;
 }
 
-.unfed,
-.fed,
-.no-toys,
-.all-toys {
+.unwatered,
+.watered,
+.no-vases,
+.all-vases {
   margin: 0;
   font-weight: bold;
 }
 
-.unfed,
-.no-toys {
+.unwatered,
+.no-vases {
   color: var(--danger);
 }
 
-.fed,
-.all-toys {
+.watered,
+.all-vases {
   color: var(--submit);
 }
 
@@ -94,7 +94,7 @@
   margin: 5px 0;
 }
 
-.waterings-toy-container > section {
+.waterings-vase-container > section {
   width: 80%;
   min-width: 360px;
   border: var(--borders);
@@ -117,13 +117,13 @@
 }
 
 .waterings h2,
-.toys h2 {
+.vases h2 {
   font-size: 3.2rem;
   margin: 0;
 }
 
 .waterings h3,
-.toys h3 {
+.vases h3 {
   font-size: var(--font-xl);
   margin: 10px 0;
 }
@@ -162,16 +162,16 @@
   background-color: #f3f3fd;
 }
 
-.toy-container p {
+.vase-container p {
   margin: 12px 0;
 }
 
-.toy-container a {
+.vase-container a {
   text-decoration: none;
   color: #111;
 }
 
-.toy-container .btn {
+.vase-container .btn {
   padding: 3px 10px;
   margin-left: 10px;
 }
@@ -201,19 +201,19 @@
     margin-right: 25px;
   }
 
-  .waterings-toy-container {
+  .waterings-vase-container {
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
   }
 
-  .waterings-toy-container > section {
+  .waterings-vase-container > section {
     width: 45%;
   }
 }
 
 @media only screen and (min-width: 1024px) {
-  .waterings-toy-container {
+  .waterings-vase-container {
     padding: 0 40px;
   }
 }

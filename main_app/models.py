@@ -8,9 +8,21 @@ WATER = (
 )
 
 # Create your models here.
+class Vase(models.Model):
+  type = models.CharField(max_length=50)
+  color = models.CharField(max_length=20)
+
+  def __str__(self):
+    return self.type
+
+  def get_absolute_url(self):
+    return reverse('vases_detail', kwargs={'pk': self.id})
+
+
 class Flower(models.Model):
   name = models.CharField(max_length=100)
   description = models.TextField(max_length=250)
+  vases = models.ManyToManyField(Vase)
 
   def __str__(self):
     return self.name
@@ -36,13 +48,3 @@ class Watering(models.Model):
 
   class Meta:
     ordering = ['-date']
-
-class Vase(models.Model):
-  type = models.CharField(max_length=50)
-  color = models.CharField(max_length=20)
-
-  def __str__(self):
-    return self.name
-
-  def get_absolute_url(self):
-    return reverse('vases_detail', kwargs={'pk': self.id})

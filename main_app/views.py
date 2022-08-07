@@ -29,9 +29,10 @@ def flowers_index(request):
 
 def flowers_detail(request, flower_id):
   flower = Flower.objects.get(id=flower_id)
+  vases_flower_doesnt_have = Vase.objects.exclude(id__in = flower.vases.all().values_list('id'))
   watering_form = WateringForm()
   return render(request, 'flowers/detail.html', {
-    'flower': flower, 'watering_form': watering_form
+    'flower': flower, 'watering_form': watering_form, 'vases': vases_flower_doesnt_have
   })
 
 
@@ -73,3 +74,7 @@ class VaseUpdate(UpdateView):
 class VaseDelete(DeleteView):
   model = Vase
   success_url = '/vases/'
+
+def assoc_vase(request, flower_id, vase_id):
+  Flower.objects.get(id=flower_id).vases.add(vase_id)
+  return redirect('flowers_detail', flower_id=flower_id)

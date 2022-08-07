@@ -40,7 +40,7 @@
   </div>
 </section>
 
-<div class="waterings-toy-container">
+<div class="waterings-vase-container">
   <section class="waterings">
     <div class="subsection-title">
       <h2>Waterings</h2>
@@ -67,9 +67,9 @@
       class="subsection-content"
     >
       {% if flower.watered_for_today %}
-        <p class="fed">{{flower.name}} has been watered for today!</p>
+        <p class="watered">{{flower.name}} has been watered for today!</p>
       {% else %}
-        <p class="unfed">{{flower.name}} might be thirsty!!</p>
+        <p class="unwatered">{{flower.name}} might be thirsty!!</p>
       {% endif %}
       {% csrf_token %}
       {{ watering_form.as_p }}
@@ -92,11 +92,60 @@
       </table>
     {% else %}
 			<div class="subsection-content">
-        <p>{{flower.name}} has not been fed!!</p>
+        <p>{{flower.name}} has not been watered!!</p>
       </div>
     {% endif %}
     </section>
-  </div>
+    <section class="vases">
+      <div class="subsection-title">
+        <h2>Vases</h2>
+        <img src="{% static 'images/vase.jpeg' %}" alt="A vase" />
+        <img src="{% static 'images/vase.jpeg' %}" alt="A vase" />
+        <img src="{% static 'images/vase.jpeg' %}" alt="A vase" />
+      </div>
+      <h3>{{ flower.name }}'s Vases</h3>
+      <div class="subsection-content">
+        {% if flower.vases.count %}
+          {% for vase in flower.vases.all %}
+            <div class="vases-container">
+              <div 
+                class="color-block"
+                style="background-color: {{ vase.color }}"
+              ></div>
+              <a href="{% url 'vases_detail' vase.id %}">
+                <p>A {{ vase.color }} {{ vase.type }}</p>
+              </a>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="no-vases">{{flower.name}} doesn't have any vases</p>
+        {% endif %}
+      </div>
+      <h3>Available Vases</h3>
+    <div class="subsection-content">
+      {% if vases.count %}
+        {% for vase in vases.all %}
+          <div class="vase-container">
+            <div 
+              class="color-block"
+              style="background-color: {{ vase.color }}"
+            ></div>
+            <a href="{% url 'vases_detail' vase.id %}">
+              <p>A {{ vase.color }} {{ vase.type }}</p>
+            </a>
+            <form action="{% url 'assoc_vase' flower.id vase.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn submit">Give vase</button>
+            </form>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="all-vases">
+          {{flower.name}} already has all the available vases!!
+        </p>
+      {% endif %}
+    </div>
+  </section>
 </div>
 
 {% endblock %}
