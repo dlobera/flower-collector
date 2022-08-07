@@ -1,0 +1,36 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/vases/vase-index.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+  <h1>All Flower Vases</h1>
+  <img src="{% static 'images/glass.png' %}" alt="Glass Vase" />
+  <img src="{% static 'images/cylinder.png' %}" alt="Cylinder Vase" />
+  <img src="{% static 'images/pitchervase.jpeg' %}" alt="Picher Vase" />
+  <img src="{% static 'images/ceramicvase.png' %}" alt="Ceramic Vase" />
+</section>
+
+<section class="card-container">
+  {% for vase in vase_list %}
+  <div class="card" style="border-color: {{ vase.color }}">
+    <div class="card-bg" style="background-color: {{ vase.color }}"></div>
+    <a href="{% url 'vases_detail' vase.id %}">
+      <div class="card-content">
+        <h2>{{ vase.type }}</h2>
+        <p>A {{ vase.color }} vase</p>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</section>
+
+{% endblock %}

@@ -3,10 +3,20 @@
 
 {% block head %}
 <link 
+  href="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.css" 
+  rel="stylesheet" 
+/>
+<link rel="stylesheet" href="{% static 'css/mcdp.css' %}">
+<script 
+  src="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.js"
+>
+</script>
+<link 
   rel="stylesheet" 
   type="text/css" 
   href="{% static 'css/flowers/flower-detail.css' %}"
 />
+<script defer src="{% static 'js/flower-detail.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -22,7 +32,71 @@
   <div class="flower-details">
     <h1>{{ flower.name }}</h1>
     <p>{{ flower.description }}</p>
+    <br>
+    <div class="flower-actions">
+      <a href="{% url 'flowers_update' flower.id %}" class="btn warn">Edit</a>
+      <a href="{% url 'flowers_delete' flower.id %}" class="btn danger">Delete</a>
+    </div>
   </div>
 </section>
+
+<div class="waterings-toy-container">
+  <section class="waterings">
+    <div class="subsection-title">
+      <h2>Waterings</h2>
+      <img 
+        src="{% static 'images/drop.png' %}" 
+        alt="Watering flower"
+        class="drops"
+      />
+      <img 
+        src="{% static 'images/drop.png' %}" 
+        alt="Watering flower"
+        class="drops"
+      />
+      <img 
+        src="{% static 'images/drop.png' %}" 
+        alt="Watering flower"
+        class="drops"
+      />
+    </div>
+    <h3>Add a Watering</h3>
+    <form
+      action="{% url 'add_watering' flower.id %}" 
+      method="post" 
+      class="subsection-content"
+    >
+      {% if flower.watered_for_today %}
+        <p class="fed">{{flower.name}} has been watered for today!</p>
+      {% else %}
+        <p class="unfed">{{flower.name}} might be thirsty!!</p>
+      {% endif %}
+      {% csrf_token %}
+      {{ watering_form.as_p }}
+      <button type="submit" class="btn submit">Add Water</button>
+    </form>
+    <h3>Past Waterings</h3>
+    {% if flower.watering_set.all.count %}
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Water</th></tr>
+        </thead>
+        <tbody>
+          {% for watering in flower.watering_set.all %}
+            <tr>
+              <td>{{watering.date}}</td>
+              <td>{{watering.get_water_display}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+			<div class="subsection-content">
+        <p>{{flower.name}} has not been fed!!</p>
+      </div>
+    {% endif %}
+    </section>
+  </div>
+</div>
 
 {% endblock %}

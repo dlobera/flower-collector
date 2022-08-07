@@ -1,3 +1,7 @@
+/* .drops {
+  background-color: white
+} */
+
 .flower-container {
   padding: 35px 30px;
 }
@@ -20,7 +24,7 @@
   margin-top: 20px;
 }
 
-.feedings-toy-container {
+.waterings-toy-container {
   display: flex;
   flex-direction: column;
   padding-bottom: 20px;
@@ -90,7 +94,7 @@
   margin: 5px 0;
 }
 
-.feedings-toy-container > section {
+.waterings-toy-container > section {
   width: 80%;
   min-width: 360px;
   border: var(--borders);
@@ -112,13 +116,13 @@
   margin-left: 16px;
 }
 
-.feedings h2,
+.waterings h2,
 .toys h2 {
   font-size: 3.2rem;
   margin: 0;
 }
 
-.feedings h3,
+.waterings h3,
 .toys h3 {
   font-size: var(--font-xl);
   margin: 10px 0;
@@ -136,25 +140,25 @@
   padding: 3px;
 }
 
-.feedings table {
+.waterings table {
   width: calc(100% - 16px);
   text-align: left;
   border-collapse: collapse;
   margin: 0 8px;
 }
 
-.feedings td {
+.waterings td {
   padding: 8px 5px;
   font-size: var(--font-reg);
 }
 
-.feedings th {
+.waterings th {
   font-size: var(--font-l);
   padding: 5px 5px 0;
   border-bottom: rgb(36, 116, 248) solid 2px;
 }
 
-.feedings tr:nth-child(even) {
+.waterings tr:nth-child(even) {
   background-color: #f3f3fd;
 }
 
@@ -197,19 +201,19 @@
     margin-right: 25px;
   }
 
-  .feedings-toy-container {
+  .waterings-toy-container {
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
   }
 
-  .feedings-toy-container > section {
+  .waterings-toy-container > section {
     width: 45%;
   }
 }
 
 @media only screen and (min-width: 1024px) {
-  .feedings-toy-container {
+  .waterings-toy-container {
     padding: 0 40px;
   }
 }

@@ -1,6 +1,8 @@
-from django.shortcuts import render
-from django.views.generic.edit import CreateView
-from .models import Flower
+from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .models import Flower, Vase
+from .forms import WateringForm
+from django.views.generic import ListView, DetailView
 
 # class Flower: 
 #   def __init__(self, name, description):
@@ -27,8 +29,47 @@ def flowers_index(request):
 
 def flowers_detail(request, flower_id):
   flower = Flower.objects.get(id=flower_id)
-  return render(request, 'flowers/detail.html', { 'flower': flower })
+  watering_form = WateringForm()
+  return render(request, 'flowers/detail.html', {
+    'flower': flower, 'watering_form': watering_form
+  })
+
 
 class FlowerCreate(CreateView):
   model = Flower
   fields = '__all__'
+  success_url = '/flowers/'
+
+class FlowerUpdate(UpdateView):
+  model = Flower
+  fields = ['description']
+
+class FlowerDelete(DeleteView):
+  model = Flower
+  success_url = '/flowers/'
+
+def add_watering(request, flower_id):
+  form = WateringForm(request.POST)
+  if form.is_valid():
+    new_watering = form.save(commit=False)
+    new_watering.flower_id = flower_id
+    new_watering.save()
+  return redirect('flowers_detail', flower_id=flower_id)
+
+class VaseCreate(CreateView):
+  model = Vase
+  fields = '__all__'
+
+class VaseList(ListView):
+  model = Vase
+
+class VaseDetail(DetailView):
+  model = Vase
+
+class VaseUpdate(UpdateView):
+  model = Vase
+  fields = ['type', 'color']
+
+class VaseDelete(DeleteView):
+  model = Vase
+  success_url = '/vases/'
