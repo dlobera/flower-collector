@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link 
+  rel="stylesheet" 
+  type="text/css" 
+  href="{% static 'css/flowers/flower-detail.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+
+<section class="flower-container">
+  <div class="flower-img">
+    <img 
+      class="flowerspic" 
+      src="{% static 'images/flowers.jpeg' %}" 
+      alt="Flowers"
+    >
+  </div>
+  <div class="flower-details">
+    <h1>{{ flower.name }}</h1>
+    <p>{{ flower.description }}</p>
+  </div>
+</section>
+
+{% endblock %}

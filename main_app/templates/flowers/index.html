@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link 
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/flowers/flower-index.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+  <h1>Flower List</h1>
+  <img src="{% static 'images/dahliaf.jpeg' %}" alt="Dahlia" />
+  <img src="{% static 'images/merigold.jpeg' %}" alt="Merigold" />
+  <img src="{% static 'images/lily.jpeg' %}" alt="Lily" />
+  <img src="{% static 'images/peony.jpeg' %}" alt="Peony" />
+</section>
+
+<section class="card-container">
+  {% for flower in flowers %}
+    <div class="card">
+      <a href="{% url 'flowers_detail' flower.id %}">
+      <div class="card-content">
+        <div class="card-img-container">
+          <img 
+            class="flowers" 
+            src="{% static 'images/flowers.jpeg' %}" 
+            alt="flowers"
+          />
+        </div>
+        <h2 class="card-title">{{ flower.name }}</h2>
+        <p><small>{{ flower.description }}</small></p>
+      </div>
+      </a>
+    </div>
+  {% endfor %}
+</section>
+
+{% endblock %}
