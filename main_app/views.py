@@ -3,6 +3,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Flower, Vase
 from .forms import WateringForm
 from django.views.generic import ListView, DetailView
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 
 # class Flower: 
 #   def __init__(self, name, description):
@@ -17,16 +22,18 @@ from django.views.generic import ListView, DetailView
 # ]
 
 # Create your views here.
-def home(request):
-  return render(request, 'home.html')
+class home(LoginView):
+  template_name = 'home.html'
 
 def about(request):
   return render(request, 'about.html')
 
+@login_required
 def flowers_index(request):
-  flowers = Flower.objects.all()
+  flowers = Flower.objects.filter(user=request.user)
   return render(request, 'flowers/index.html', { 'flowers': flowers })
 
+@login_required
 def flowers_detail(request, flower_id):
   flower = Flower.objects.get(id=flower_id)
   vases_flower_doesnt_have = Vase.objects.exclude(id__in = flower.vases.all().values_list('id'))
@@ -36,19 +43,24 @@ def flowers_detail(request, flower_id):
   })
 
 
-class FlowerCreate(CreateView):
+class FlowerCreate(LoginRequiredMixin, CreateView):
   model = Flower
   fields = '__all__'
   success_url = '/flowers/'
 
-class FlowerUpdate(UpdateView):
+  def form_valid(self, form):
+    form.instance.user = self.request.user  
+    return super().form_valid(form)
+
+class FlowerUpdate(LoginRequiredMixin, UpdateView):
   model = Flower
   fields = ['description']
 
-class FlowerDelete(DeleteView):
+class FlowerDelete(LoginRequiredMixin, DeleteView):
   model = Flower
   success_url = '/flowers/'
 
+@login_required
 def add_watering(request, flower_id):
   form = WateringForm(request.POST)
   if form.is_valid():
@@ -57,24 +69,39 @@ def add_watering(request, flower_id):
     new_watering.save()
   return redirect('flowers_detail', flower_id=flower_id)
 
-class VaseCreate(CreateView):
+class VaseCreate(LoginRequiredMixin, CreateView):
   model = Vase
   fields = '__all__'
 
-class VaseList(ListView):
+class VaseList(LoginRequiredMixin, ListView):
   model = Vase
 
-class VaseDetail(DetailView):
+class VaseDetail(LoginRequiredMixin, DetailView):
   model = Vase
 
-class VaseUpdate(UpdateView):
+class VaseUpdate(LoginRequiredMixin, UpdateView):
   model = Vase
   fields = ['type', 'color']
 
-class VaseDelete(DeleteView):
+class VaseDelete(LoginRequiredMixin, DeleteView):
   model = Vase
   success_url = '/vases/'
 
+@login_required
 def assoc_vase(request, flower_id, vase_id):
   Flower.objects.get(id=flower_id).vases.add(vase_id)
   return redirect('flowers_detail', flower_id=flower_id)
+
+def signup(request):
+  error_message = ''
+  if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      user = form.save()
+      login(request, user)
+      return redirect('flowers_index')
+    else:
+      error_message = 'Invalid sign up - try again'
+  form = UserCreationForm()
+  context = {'form': form, 'error_message': error_message}
+  return render(request, 'signup.html', context)

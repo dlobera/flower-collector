@@ -23,8 +23,15 @@ main > section {
   max-width: 375px;
 }
 
-.cat-container {
-  width: 80%;
+/* .flowerzcontainer {
+  width: 50%;
+} */
+.thef {
+  width: 350px;
+}
+
+.logof {
+  margin-right: 100px;
 }
 
 .login {
